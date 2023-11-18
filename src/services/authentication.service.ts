@@ -8,17 +8,12 @@ export async function signIn(props: authenticationProps) {
 
 export async function signUp(props: createUserProps) {
   const { email, password, nickname, name, image } = props;
-  return axios("http://127.0.0.1:3000/api/auth", {
-    method: "POST",
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-    data: {
-      email,
-      password,
-      nickname,
-      name,
-      image,
-    },
+  const imageUrl = URL.createObjectURL(image);
+  return axios.post("http://127.0.0.1:3000/api/auth", {
+    email,
+    password,
+    nickname,
+    name,
+    image: imageUrl,
   });
 }
