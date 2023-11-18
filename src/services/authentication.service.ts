@@ -17,3 +17,7 @@ export async function signUp(props: createUserProps) {
     image: imageUrl,
   });
 }
+
+export async function signOut() {
+  return api.delete("/auth");
+}

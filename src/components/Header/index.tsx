@@ -1,23 +1,25 @@
-import { Container, Nav } from "react-bootstrap";
+import { Container, Dropdown, Nav, Image } from "react-bootstrap";
 import { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { signOut } from "../../services";
+import { CurrentUser } from "../../utils/userUtils";
+import { AuthTokens } from "../../utils/authTokens";
 
 export function Header() {
-  const user = localStorage.getItem("userName");
-  const location = useLocation();
-  const redirect = useNavigate();
+  const user = CurrentUser.get();
 
   useEffect(() => {
-    if (!user) {
-      redirect("/login");
+    if (!CurrentUser.get() || !AuthTokens.tokensExist()) {
+      CurrentUser.clear();
+      AuthTokens.cleanTokens();
     }
-  }, [location, redirect, user]);
+  }, []);
 
-  const handleClose = () => {
-    localStorage.clear();
-    redirect("/login");
+  const handleClose = async () => {
+    await signOut();
+    CurrentUser.clear();
+    AuthTokens.cleanTokens();
   };
-  
+
   return (
     <div className=" bg-black">
       <Container>
@@ -31,8 +33,26 @@ export function Header() {
           <Nav.Link href="/lista" className=" text-white">
             Lista de...
           </Nav.Link>
-          <Nav.Link onClick={handleClose} className=" text-white">
-            Sair
+          {user && user.role === "admin" && (
+            <Nav.Link href="/users" className=" text-white">
+              Usuarios
+            </Nav.Link>
+          )}
+          <Nav.Link className=" text-white">
+            <Dropdown>
+              <Dropdown.Toggle variant="outline-light">
+                <Image
+                  src={user?.image}
+                  sizes="2em"
+                  className="rounded-circle"
+                />
+                {user?.name}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item>Perfil</Dropdown.Item>
+                <Dropdown.Item onClick={handleClose}>Sair</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </Nav.Link>
         </Nav>
       </Container>

@@ -2,7 +2,7 @@ import { Container } from "react-bootstrap";
 
 interface SubheaderProps {
   title: string;
-  filters: React.JSX.Element;
+  filters?: React.JSX.Element;
 }
 
 export function Subheader(props: SubheaderProps) {

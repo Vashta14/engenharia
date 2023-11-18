@@ -7,6 +7,7 @@ import React from "react";
 import { signIn } from "../../services";
 import { AxiosError } from "axios";
 import { ApiErrors } from "../../components/ApiErrors";
+import { CurrentUser } from "../../utils/userUtils";
 
 export default function Login() {
   const [formIsInvalid, setFormIsInvalid] = useState<boolean>(false);
@@ -27,7 +28,9 @@ export default function Login() {
 
       setIsLoading(true);
       try {
-        await signIn(newUser);
+        const { data } = await signIn(newUser);
+        CurrentUser.set(data);
+        window.location.replace("/home");
       } catch (error) {
         if (error instanceof AxiosError)
           setErrorMessages(error.response?.data.messages);

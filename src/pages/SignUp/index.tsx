@@ -6,6 +6,7 @@ import { useState } from "react";
 import { signUp } from "../../services";
 import { AxiosError } from "axios";
 import { ApiErrors } from "../../components/ApiErrors";
+import { CurrentUser } from "../../utils/userUtils";
 
 export default function SignUp() {
   const [formIsInvalid, setFormIsInvalid] = useState(false);

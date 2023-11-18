@@ -1,42 +1,43 @@
 import { AxiosResponseHeaders } from "axios";
 
-type AuthTokensManager = {
-  getAccessToken: () => string | null;
-  getClient: () => string | null;
-  getExpirity: () => string | null;
-  getUid: () => string | null;
-  setTokensByHeader: (header: AxiosResponseHeaders) => void;
-  cleanTokens: () => void;
-  tokensExist: () => boolean;
-};
+export class AuthTokens {
+  static getAccessToken(): string | null {
+    return `${localStorage.getItem("access-token")}`;
+  }
 
-export const authTokens: AuthTokensManager = {
-  getAccessToken: () => `${localStorage.getItem("access-token")}`,
-  getClient: () => `${localStorage.getItem("client")}`,
-  getExpirity: () => `${localStorage.getItem("expirity")}`,
-  getUid: () => `${localStorage.getItem("uid")}`,
+  static getClient(): string | null {
+    return `${localStorage.getItem("client")}`;
+  }
 
-  setTokensByHeader: (header) => {
+  static getExpirity(): string | null {
+    return `${localStorage.getItem("expirity")}`;
+  }
+
+  static getUid(): string | null {
+    return `${localStorage.getItem("uid")}`;
+  }
+
+  static setTokensByHeader(header: AxiosResponseHeaders): void {
     localStorage.setItem("access-token", header["access-token"]);
     localStorage.setItem("client", header.client);
-    localStorage.setItem("expirity", header.expirity);
+    localStorage.setItem("expirity", header.expiry);
     localStorage.setItem("uid", header.uid);
-    window.location.replace("/home");
-  },
+  }
 
-  tokensExist: function () {
+  static tokensExist(): boolean {
     return (
       this.getAccessToken() !== "null" &&
       this.getClient() !== "null" &&
       this.getExpirity() !== "null" &&
       this.getUid() !== "null"
     );
-  },
+  }
 
-  cleanTokens: () => {
+  static cleanTokens(): void {
     localStorage.removeItem("access-token");
     localStorage.removeItem("client");
     localStorage.removeItem("expirity");
     localStorage.removeItem("uid");
-  },
-};
+    window.location.replace("/login");
+  }
+}
