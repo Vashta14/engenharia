@@ -1,15 +1,16 @@
-import { Form } from "react-bootstrap";
+import { Form, FormControlProps } from "react-bootstrap";
+import { InputHTMLAttributes } from "react";
 
-interface FormCellProps {
-  title: string;
-  name: string;
-  type: string;
-  value?: string | number | undefined;
-  required?: boolean;
-  onChange?: React.ChangeEventHandler;
-  onBlur?: React.FocusEventHandler;
-  feedback?: string;
-}
+type FormCellProps = FormControlProps &
+  InputHTMLAttributes<HTMLInputElement> & {
+    title: string;
+    name: string;
+    type: string;
+    onChange?: React.ChangeEventHandler;
+    onBlur?: React.FocusEventHandler;
+    feedback?: string;
+    required?: boolean;
+  };
 
 export function FormField(props: FormCellProps) {
   const {
@@ -21,6 +22,7 @@ export function FormField(props: FormCellProps) {
     onChange,
     onBlur,
     feedback = "Campo obrigatorio!",
+    ...otherProps
   } = props;
 
   return (
@@ -37,9 +39,15 @@ export function FormField(props: FormCellProps) {
           onChange={onChange}
           onBlur={onBlur}
           required={required}
+          {...otherProps}
         />
       ) : (
-        <Form.Control type={type} name={name} required={required} />
+        <Form.Control
+          type={type}
+          name={name}
+          required={required}
+          {...otherProps}
+        />
       )}
 
       <Form.Control.Feedback type="invalid">{feedback}</Form.Control.Feedback>

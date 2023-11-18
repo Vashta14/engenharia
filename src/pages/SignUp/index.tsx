@@ -69,7 +69,13 @@ export default function SignUp() {
               )}
               <FormField title="Nome" name="name" type="text" required />
               <FormField title="Apelido" name="nickname" type="text" required />
-              <FormField title="Imagem" name="image" type="file" required />
+              <FormField
+                title="Imagem"
+                name="image"
+                type="file"
+                accept=".png,.jpg,.jpeg,.webp"
+                required
+              />
               <FormField title="Email" name="email" type="email" required />
               <FormField
                 title="Senha"
