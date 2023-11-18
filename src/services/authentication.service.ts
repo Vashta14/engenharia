@@ -1,14 +1,24 @@
-export async function authentication(props: authenticationProps) {
+import axios from "axios";
+import api from "./api";
+
+export async function signIn(props: authenticationProps) {
   const { password, email } = props;
-  const users: Record<string, user> = {
-    "abc@gmail.com": { name: "Raul", password: "1234abcd" },
-    "abcd@gmail.com": { name: "Raul Lima", password: "1234abcd" },
-  };
-  if (users[email]?.password === password) {
-    const user = users[email];
-    return new Response(JSON.stringify({ name: user.name }), {
-      status: 200,
-    });
-  }
-  return new Response(null, { status: 404 });
+  return api.post("/auth/sign_in", { password, email });
+}
+
+export async function signUp(props: createUserProps) {
+  const { email, password, nickname, name, image } = props;
+  return axios("http://127.0.0.1:3000/api/auth", {
+    method: "POST",
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+    data: {
+      email,
+      password,
+      nickname,
+      name,
+      image,
+    },
+  });
 }

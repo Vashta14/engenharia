@@ -1,33 +1,40 @@
-import { useState } from "react";
-import { Button, Card, Container, Form } from "react-bootstrap";
+import { Card, Container, Form } from "react-bootstrap";
 import { FormAlert } from "../../components/FormAlert";
 import { FormField } from "../../components/FormField";
 import { FormSubmitButton } from "../../components/FormSubmitButton";
-import React from "react";
-import { signIn } from "../../services";
+import { useState } from "react";
+import { signUp } from "../../services";
 import { AxiosError } from "axios";
 import { ApiErrors } from "../../components/ApiErrors";
 
-export default function Login() {
-  const [formIsInvalid, setFormIsInvalid] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>();
+export default function SignUp() {
+  const [formIsInvalid, setFormIsInvalid] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [errorMessages, setErrorMessages] = useState<Array<string>>([]);
+  const [key, setKey] = useState(0);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setKey(Date.now());
     if (e.currentTarget.checkValidity()) {
       const target = e.target as typeof e.target & {
+        name: { value: string };
+        nickname: { value: string };
         email: { value: string };
         password: { value: string };
-      };
-      const newUser = {
-        email: target.email.value,
-        password: target.password.value,
+        image: { files: FileList };
       };
 
+      const newUser = {
+        name: target.name.value,
+        nickname: target.nickname.value,
+        email: target.email.value,
+        password: target.password.value,
+        image: target.image.files[0],
+      };
       setIsLoading(true);
       try {
-        await signIn(newUser);
+        await signUp(newUser);
       } catch (error) {
         if (error instanceof AxiosError)
           setErrorMessages(error.response?.data.messages);
@@ -43,8 +50,8 @@ export default function Login() {
   return (
     <div className="bg-dark min-vh-100 d-flex align-items-center">
       <Container className=" d-flex justify-content-center">
-        <Card className="col-12 col-md-3">
-          <Card.Header className="bg-white">Login</Card.Header>
+        <Card className="col-12 col-md-10">
+          <Card.Header className="bg-white">Criar uma nova conta</Card.Header>
           <Form noValidate validated={formIsInvalid} onSubmit={handleSubmit}>
             <Card.Body>
               <FormAlert
@@ -58,11 +65,11 @@ export default function Login() {
                 Preencha os campos obrigatorios!
               </FormAlert>
               {errorMessages?.length > 0 && (
-                <ApiErrors
-                  key={JSON.stringify(errorMessages)}
-                  items={errorMessages}
-                />
+                <ApiErrors key={key} items={errorMessages} />
               )}
+              <FormField title="Nome" name="name" type="text" required />
+              <FormField title="Apelido" name="nickname" type="text" required />
+              <FormField title="Imagem" name="image" type="file" required />
               <FormField title="Email" name="email" type="email" required />
               <FormField
                 title="Senha"
@@ -73,16 +80,8 @@ export default function Login() {
             </Card.Body>
             <Card.Footer className="d-flex flex-column align-items-center justify-content-center bg-white">
               <FormSubmitButton className="w-100" isLoading={isLoading}>
-                Entrar
+                Criar conta
               </FormSubmitButton>
-              <span className="py-2">ou</span>
-              <Button
-                as={"a"}
-                variant="success"
-                onClick={() => window.location.replace("/sign-up")}
-              >
-                Criar usuario
-              </Button>
             </Card.Footer>
           </Form>
         </Card>
