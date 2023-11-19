@@ -86,7 +86,7 @@ export default function Users() {
 
   return (
     <>
-      <Subheader title="Users" />
+      <Subheader title="Usuarios" />
       <Container>
         {selectedUser && (
           <EditUserModal
