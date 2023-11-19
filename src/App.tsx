@@ -10,7 +10,7 @@ export default function App() {
       <BrowserRouter>
         <Routers />
       </BrowserRouter>
-      <ToastContainer theme="dark" />
+      <ToastContainer theme="dark" position="bottom-right" />
     </>
   );
 }

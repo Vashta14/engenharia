@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Header } from "../../components/Header";
 import { Subheader } from "../../components/Subheader";
 import { listUsers } from "../../services/users.service";
 import { Column, CustomTable } from "../../components/CustomTable";
@@ -120,7 +119,6 @@ export default function Users() {
 
   return (
     <>
-      <Header />
       <Subheader title="Users" />
       <Container>
         {selectedUser && (

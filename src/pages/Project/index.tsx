@@ -3,7 +3,6 @@ import { Subheader } from "../../components/Subheader";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getProject } from "../../services/projects.service";
-import { Header } from "../../components/Header";
 import { listSponsorships } from "../../services/sponsorships.service";
 import useUrlParams from "../../Hooks/useUrlParams";
 import { Column, CustomTable } from "../../components/CustomTable";
@@ -136,7 +135,6 @@ export default function Project() {
 
   return (
     <>
-      <Header />
       <Subheader
         title={
           <>

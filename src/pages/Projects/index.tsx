@@ -1,6 +1,5 @@
 import { Button, ButtonGroup, Container } from "react-bootstrap";
 import { Subheader } from "../../components/Subheader";
-import { Header } from "../../components/Header";
 import { Column, CustomTable } from "../../components/CustomTable";
 import { useState, useEffect } from "react";
 import { FaAngleRight, FaPen } from "react-icons/fa";
@@ -116,7 +115,6 @@ export default function Projects() {
 
   return (
     <>
-      <Header />
       <Subheader
         title="Projetos"
         filters={

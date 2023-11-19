@@ -7,19 +7,14 @@ import logo from "../../assets/imgs/logo.png";
 import { EditUserModal } from "../../pages/Users/Components/EditUserModal";
 import localforage from "localforage";
 
-export function Header() {
+export function Header(props: {
+  setKey: React.Dispatch<React.SetStateAction<number>>;
+}) {
+  const { setKey } = props;
   const user = CurrentUser.get();
   const [userImage, setUserImage] = useState("");
   const [success, setSuccess] = useState(false);
   const [show, setShow] = useState(false);
-  const [key, setKey] = useState<number>(0);
-
-  useEffect(() => {
-    if (!CurrentUser.get() || !AuthTokens.tokensExist()) {
-      CurrentUser.clear();
-      AuthTokens.cleanTokens();
-    }
-  }, []);
 
   useEffect(() => {
     async function getImage() {
@@ -28,7 +23,11 @@ export function Header() {
       setUserImage(url);
     }
     getImage();
-  }, [key]);
+    if (!CurrentUser.get() || !AuthTokens.tokensExist()) {
+      CurrentUser.clear();
+      AuthTokens.cleanTokens();
+    }
+  }, []);
 
   useEffect(() => {
     success && setKey(Date.now());
@@ -41,7 +40,7 @@ export function Header() {
   }
 
   return (
-    <div className=" bg-black" key={key}>
+    <div className=" bg-black">
       <Container className="d-flex flex-row justify-content-between">
         <Nav className="d-flez justify-content-center align-content-center">
           <a href="/home">
