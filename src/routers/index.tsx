@@ -1,7 +1,6 @@
 import React, { Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import { RecoilRoot } from "recoil";
-import { ItemsTable } from "../pages/ItemsTable";
 import SignUp from "../pages/SignUp";
 import Users from "../pages/Users";
 import Projects from "../pages/Projects";
@@ -21,7 +20,6 @@ export function Routers() {
           <Route path="/users" index element={<Users />} />
           <Route path="/projects" index element={<Projects />} />
           <Route path="/project/:id" index element={<Project />} />
-          <Route path="/items" index element={<ItemsTable />} />
           <Route path="*" element={<Home />} />
         </Routes>
       </Suspense>

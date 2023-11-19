@@ -1,12 +1,16 @@
 import { Container, Dropdown, Nav, Image } from "react-bootstrap";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { signOut } from "../../services";
 import { CurrentUser } from "../../utils/userUtils";
 import { AuthTokens } from "../../utils/authTokens";
 import logo from "../../assets/imgs/logo.png";
+import { EditUserModal } from "../../pages/Users/Components/EditUserModal";
 
 export function Header() {
   const user = CurrentUser.get();
+  const [success, setSuccess] = useState(false);
+  const [show, setShow] = useState(false);
+  const [key, setKey] = useState<number>(0);
 
   useEffect(() => {
     if (!CurrentUser.get() || !AuthTokens.tokensExist()) {
@@ -15,26 +19,27 @@ export function Header() {
     }
   }, []);
 
-  const handleClose = async () => {
+  useEffect(() => {
+    success && setKey(Date.now());
+  }, [success]);
+
+  async function handleClose() {
     await signOut();
     CurrentUser.clear();
     AuthTokens.cleanTokens();
-  };
+  }
 
   return (
-    <div className=" bg-black">
+    <div className=" bg-black" key={key}>
       <Container className="d-flex flex-row justify-content-between">
         <Nav className="d-flez justify-content-center align-content-center">
           <a href="/home">
             <Image src={logo} style={{ width: "80px", height: "80px" }} />
           </a>
         </Nav>
-        <Nav className=" d-flex flex-row justify-content-end align-items-center p-3">
+        <Nav className=" d-flex flex-row justify-content-end align-items-center p-3 pe-0">
           <Nav.Link href="/relatorio" className=" text-white">
             Relatorio
-          </Nav.Link>
-          <Nav.Link href="/items" className=" text-white">
-            Lista de items
           </Nav.Link>
           <Nav.Link href="/projects" className=" text-white">
             Projetos
@@ -44,9 +49,12 @@ export function Header() {
               Usuarios
             </Nav.Link>
           )}
-          <Nav.Link className=" text-white">
+          <Nav.Link className="pe-0 text-white">
             <Dropdown>
-              <Dropdown.Toggle variant="outline-light">
+              <Dropdown.Toggle
+                variant="outline-light"
+                className="d-flex align-items-center gap-2"
+              >
                 <Image
                   src={user?.image}
                   sizes="2em"
@@ -55,13 +63,22 @@ export function Header() {
                 {user?.name}
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item>Perfil</Dropdown.Item>
+                <Dropdown.Item onClick={() => setShow(true)}>
+                  Perfil
+                </Dropdown.Item>
                 <Dropdown.Item onClick={handleClose}>Sair</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </Nav.Link>
         </Nav>
       </Container>
+      <EditUserModal
+        user={user}
+        show={show}
+        setShow={setShow}
+        success={success}
+        setSuccess={setSuccess}
+      />
     </div>
   );
 }

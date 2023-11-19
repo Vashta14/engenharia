@@ -5,6 +5,7 @@ import { FormSubmitButton } from "../../../../components/FormSubmitButton";
 import { FormField } from "../../../../components/FormField";
 import { toast } from "react-toastify";
 import { CustomDeleteModal } from "../../../../components/CustomDeleteModal";
+import { CurrentUser } from "../../../../utils/userUtils";
 
 export function EditUserModal(props: EditUserModalProps) {
   const { user, success, setSuccess, show, setShow } = props;
@@ -39,7 +40,10 @@ export function EditUserModal(props: EditUserModalProps) {
       };
       setIsLoading(true);
       try {
-        await updateUser(newUser);
+        const { data } = await updateUser(newUser);
+        if (data.id === CurrentUser.get().id) {
+          CurrentUser.set(data);
+        }
         toast.success("Usuario atualizado com sucesso!");
         setSuccess(true);
       } catch (error) {

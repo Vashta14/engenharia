@@ -16,6 +16,8 @@ export default function Project() {
   const [projectIsLoading, setProjectIsLoading] = useState(false);
   const [sponsorshipsIsLoading, setSponsorshipsIsLoading] = useState(false);
   const [sponsorships, setSponsorships] = useState<Array<Sponsorship>>([]);
+  const [totalAmount, setTotalAmount] = useState<number>();
+
   const [page, setPage] = useState<number>(Number(params.get("page")) || 1);
   const [itemsPerPage, setItemsPerPage] = useState<number>(20);
   const [totalItems, setTotalItems] = useState<number>();
@@ -23,7 +25,7 @@ export default function Project() {
   const [show, setShow] = useState(false);
 
   const actualBar =
-    project && project.reward ? (project.reward / project.goal) * 100 : 0;
+    project && totalAmount ? (totalAmount / project.goal) * 100 : 0;
 
   const columns: Array<Column<Sponsorship>> = [
     {
@@ -92,6 +94,7 @@ export default function Project() {
         id: Number(id),
       });
       setSponsorships(data.sponsorships);
+      setTotalAmount(data.totalAmount);
       setPage(data.pageNumber);
       setItemsPerPage(data.itemsPerPage);
       setTotalItems(data.count);
@@ -141,7 +144,7 @@ export default function Project() {
                     className="col-12 col-md-3"
                     now={actualBar}
                   />
-                  {(project?.reward || 0).toLocaleString("pt-br", {
+                  {(totalAmount || 0).toLocaleString("pt-br", {
                     style: "currency",
                     currency: "BRL",
                   })}
