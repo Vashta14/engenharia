@@ -8,6 +8,7 @@ import { listSponsorships } from "../../services/sponsorships.service";
 import useUrlParams from "../../Hooks/useUrlParams";
 import { Column, CustomTable } from "../../components/CustomTable";
 import { SponsorshipModal } from "./Components/SponsorshipModal";
+import localforage from "localforage";
 
 export default function Project() {
   const [params, setParams] = useUrlParams();
@@ -30,28 +31,40 @@ export default function Project() {
   const columns: Array<Column<Sponsorship>> = [
     {
       name: "Image",
-      field: (item) => (
-        <div
-          className="d-flex justify-content-center align-items-center bg-white"
-          style={{
-            width: "40px",
-            height: "40px",
-            objectFit: "scale-down",
-            borderRadius: "5px",
-          }}
-        >
-          <img
-            src={item.user.image}
+      field: (item) => {
+        const [fileUrl, setFileUrl] = useState<string>("");
+        useEffect(() => {
+          async function getFile() {
+            const file = await localforage.getItem(item.user.email);
+            const url = URL.createObjectURL(file as File);
+            setFileUrl(url);
+          }
+          getFile();
+        }, [item.user.email]);
+
+        return (
+          <div
+            className="d-flex justify-content-center align-items-center bg-white"
             style={{
               width: "40px",
-              height: "100%",
+              height: "40px",
               objectFit: "scale-down",
               borderRadius: "5px",
             }}
-            alt={item.user.email}
-          />
-        </div>
-      ),
+          >
+            <img
+              src={fileUrl}
+              style={{
+                width: "40px",
+                height: "100%",
+                objectFit: "scale-down",
+                borderRadius: "5px",
+              }}
+              alt={item.user.email}
+            />
+          </div>
+        );
+      },
       size: 1,
     },
     {

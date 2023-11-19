@@ -5,9 +5,11 @@ import { CurrentUser } from "../../utils/userUtils";
 import { AuthTokens } from "../../utils/authTokens";
 import logo from "../../assets/imgs/logo.png";
 import { EditUserModal } from "../../pages/Users/Components/EditUserModal";
+import localforage from "localforage";
 
 export function Header() {
   const user = CurrentUser.get();
+  const [userImage, setUserImage] = useState("");
   const [success, setSuccess] = useState(false);
   const [show, setShow] = useState(false);
   const [key, setKey] = useState<number>(0);
@@ -18,6 +20,15 @@ export function Header() {
       AuthTokens.cleanTokens();
     }
   }, []);
+
+  useEffect(() => {
+    async function getImage() {
+      const file = await localforage.getItem(user?.email);
+      const url = URL.createObjectURL(file as File);
+      setUserImage(url);
+    }
+    getImage();
+  }, [key]);
 
   useEffect(() => {
     success && setKey(Date.now());
@@ -56,7 +67,7 @@ export function Header() {
                 className="d-flex align-items-center gap-2"
               >
                 <Image
-                  src={user?.image}
+                  src={userImage}
                   className="rounded-circle"
                   style={{ height: "30px" }}
                 />

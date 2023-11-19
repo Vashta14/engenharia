@@ -6,6 +6,7 @@ import { FormField } from "../../../../components/FormField";
 import { toast } from "react-toastify";
 import { CustomDeleteModal } from "../../../../components/CustomDeleteModal";
 import { CurrentUser } from "../../../../utils/userUtils";
+import localforage from "localforage";
 
 export function EditUserModal(props: EditUserModalProps) {
   const { user, success, setSuccess, show, setShow } = props;
@@ -28,13 +29,17 @@ export function EditUserModal(props: EditUserModalProps) {
         image: { files: FileList };
       };
 
+      if (!!target.image.files[0]) {
+        const file = target.image.files[0];
+        const blob = new Blob([file], { type: file.type });
+        await localforage.setItem(target.email.value, blob);
+      }
+
       const newUser: User = {
         name: target.name.value,
         nickname: target.nickname.value,
         email: target.email.value,
-        image: !!target.image.files[0]
-          ? URL.createObjectURL(target.image.files[0])
-          : user.image,
+        image: target.email.value,
         id: user.id,
         role: user.role,
       };
