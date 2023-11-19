@@ -1,0 +1,111 @@
+import { useEffect, useState } from "react";
+import { Button, Form, Modal } from "react-bootstrap";
+import { updateUser } from "../../../../services/users.service";
+import { FormSubmitButton } from "../../../../components/FormSubmitButton";
+import { FormField } from "../../../../components/FormField";
+import { toast } from "react-toastify";
+
+export function EditUserModal(props: EditUserModalProps) {
+  const { user, setUser, success, setSuccess, show, setShow } = props;
+  const [isLoading, setIsLoading] = useState(false);
+  const [formValidated, setFormValidated] = useState(false);
+
+  function handleCloseModal() {
+    setShow(false);
+    setIsLoading(false);
+    setFormValidated(false);
+  }
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (e.currentTarget.checkValidity()) {
+      const target = e.target as typeof e.target & {
+        name: { value: string };
+        nickname: { value: string };
+        email: { value: string };
+        image: { files: FileList };
+      };
+
+      const newUser: User = {
+        name: target.name.value,
+        nickname: target.nickname.value,
+        email: target.email.value,
+        image: !user.image
+          ? URL.createObjectURL(target.image.files[0])
+          : user.image,
+        id: user.id,
+        role: user.role,
+      };
+      setIsLoading(true);
+      try {
+        await updateUser(newUser);
+        toast.success("Usuario atualizado com sucesso!");
+        setSuccess(true);
+        handleCloseModal();
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      setFormValidated(true);
+    }
+  }
+
+  useEffect(() => {
+    if (show) {
+      setSuccess(false);
+    }
+  }, [show]);
+
+  return (
+    <Modal
+      show={show}
+      onHide={handleCloseModal}
+      backdrop="static"
+      keyboard={false}
+    >
+      <Modal.Header closeButton>
+        <Modal.Title>Editar usuario</Modal.Title>
+      </Modal.Header>
+      <Form noValidate validated={formValidated} onSubmit={handleSubmit}>
+        <Modal.Body>
+          <FormField
+            title="Nome"
+            name="name"
+            type="text"
+            required
+            defaultValue={user.name}
+          />
+          <FormField
+            title="Apelido"
+            name="nickname"
+            type="text"
+            required
+            defaultValue={user.nickname}
+          />
+          <FormField
+            title="Imagem"
+            name="image"
+            type="file"
+            accept=".png,.jpg,.jpeg,.webp"
+            required={!user.image}
+          />
+          <FormField
+            title="Email"
+            name="email"
+            type="email"
+            required
+            defaultValue={user.email}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="outline-secondary" onClick={handleCloseModal}>
+            Fechar
+          </Button>
+          <FormSubmitButton isLoading={isLoading}>Salvar</FormSubmitButton>
+        </Modal.Footer>
+      </Form>
+    </Modal>
+  );
+}

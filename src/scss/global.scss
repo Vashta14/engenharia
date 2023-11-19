@@ -10,3 +10,17 @@
   border-color: #86b7fe;
   box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 25%);
 }
+
+ul.pagination-dark li > span {
+  box-sizing: border-box;
+  background-color: rgba(var(--bs-black-rgb), 0.35)!important;
+  border: 0;
+  color: var(--bs-body-bg)!important;
+}
+
+ul.pagination-dark li a{
+  box-sizing: border-box;
+  background-color: rgba(var(--bs-black-rgb), 0.25)!important;
+  border: 0;
+  color: var(--bs-body-bg)!important;
+}

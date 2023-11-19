@@ -6,6 +6,7 @@ import { Column, CustomTable } from "../../components/CustomTable";
 import { FaPen } from "react-icons/fa";
 import { Button, ButtonGroup, Container } from "react-bootstrap";
 import useUrlParams from "../../Hooks/useUrlParams";
+import { EditUserModal } from "./Components/EditUserModal";
 
 export default function Users() {
   const [params, setParams] = useUrlParams();
@@ -14,7 +15,7 @@ export default function Users() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [page, setPage] = useState<number>(Number(params.get("page")) || 1);
-  const [itemsPerPage, setItemsPerPage] = useState<number>(1);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(20);
   const [totalItems, setTotalItems] = useState<number>();
   const [showModal, setShowModal] = useState(false);
 
@@ -78,8 +79,11 @@ export default function Users() {
   async function getUsers() {
     setLoading(true);
     try {
-      const { data } = await listUsers();
+      const { data } = await listUsers({ page, itemsPerPage });
       setUsers(data.users);
+      setPage(data.pageNumber);
+      setItemsPerPage(data.itemsPerPage);
+      setTotalItems(data.count);
     } catch (error) {
       console.error(error);
     } finally {
@@ -107,6 +111,17 @@ export default function Users() {
       <Header />
       <Subheader title="Users" />
       <Container>
+        {selectedUser && (
+          <EditUserModal
+            user={selectedUser}
+            setUser={setSelectedUser}
+            show={showModal}
+            setShow={setShowModal}
+            success={success}
+            setSuccess={setSuccess}
+          />
+        )}
+
         <CustomTable
           items={users}
           columns={columns}
