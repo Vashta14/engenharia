@@ -2,7 +2,7 @@ import { Pagination } from "react-bootstrap";
 
 export function PaginationTable(props: PaginationTableProps) {
   const { itemsPerPage, setPage, page, totalItems } = props;
-  const lastPage = Math.floor(totalItems / itemsPerPage);
+  const lastPage = Math.ceil(totalItems / itemsPerPage);
   return (
     <Pagination className="d-flex justify-content-end pagination-dark">
       {page - 1 > 0 && (

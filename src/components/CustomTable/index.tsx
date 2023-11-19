@@ -30,7 +30,7 @@ export function CustomTable<T>(props: CustomTableProps<T>) {
     isLoading = false,
     itemsPerPage,
     page,
-    setPage,
+    setPage = () => {},
     totalItems,
   } = props;
 

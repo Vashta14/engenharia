@@ -6,7 +6,7 @@ import { FaPen } from "react-icons/fa";
 import { Button, ButtonGroup, Container } from "react-bootstrap";
 import useUrlParams from "../../Hooks/useUrlParams";
 import { EditUserModal } from "./Components/EditUserModal";
-import localforage from "localforage";
+import { Avatar } from "../../components/Avatar";
 
 export default function Users() {
   const [params, setParams] = useUrlParams();
@@ -22,40 +22,7 @@ export default function Users() {
   const columns: Array<Column<User>> = [
     {
       name: "Image",
-      field: (item) => {
-        const [fileUrl, setFileUrl] = useState<string>("");
-        useEffect(() => {
-          async function getFile() {
-            const file = await localforage.getItem(item.email);
-            const url = URL.createObjectURL(file as File);
-            setFileUrl(url);
-          }
-          getFile();
-        }, [item.email]);
-
-        return (
-          <div
-            className="d-flex justify-content-center align-items-center bg-white"
-            style={{
-              width: "40px",
-              height: "40px",
-              objectFit: "scale-down",
-              borderRadius: "5px",
-            }}
-          >
-            <img
-              src={fileUrl}
-              style={{
-                width: "40px",
-                height: "100%",
-                objectFit: "scale-down",
-                borderRadius: "5px",
-              }}
-              alt={item.email}
-            />
-          </div>
-        );
-      },
+      field: (item) => <Avatar src={item.image} alt={item.name} />,
       size: 1,
     },
     {

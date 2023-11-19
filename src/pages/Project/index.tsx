@@ -7,7 +7,7 @@ import { listSponsorships } from "../../services/sponsorships.service";
 import useUrlParams from "../../Hooks/useUrlParams";
 import { Column, CustomTable } from "../../components/CustomTable";
 import { SponsorshipModal } from "./Components/SponsorshipModal";
-import localforage from "localforage";
+import { Avatar } from "../../components/Avatar";
 
 export default function Project() {
   const [params, setParams] = useUrlParams();
@@ -19,7 +19,7 @@ export default function Project() {
   const [totalAmount, setTotalAmount] = useState<number>();
 
   const [page, setPage] = useState<number>(Number(params.get("page")) || 1);
-  const [itemsPerPage, setItemsPerPage] = useState<number>(20);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(10);
   const [totalItems, setTotalItems] = useState<number>();
   const [success, setSuccess] = useState(false);
   const [show, setShow] = useState(false);
@@ -30,40 +30,7 @@ export default function Project() {
   const columns: Array<Column<Sponsorship>> = [
     {
       name: "Image",
-      field: (item) => {
-        const [fileUrl, setFileUrl] = useState<string>("");
-        useEffect(() => {
-          async function getFile() {
-            const file = await localforage.getItem(item.user.email);
-            const url = URL.createObjectURL(file as File);
-            setFileUrl(url);
-          }
-          getFile();
-        }, [item.user.email]);
-
-        return (
-          <div
-            className="d-flex justify-content-center align-items-center bg-white"
-            style={{
-              width: "40px",
-              height: "40px",
-              objectFit: "scale-down",
-              borderRadius: "5px",
-            }}
-          >
-            <img
-              src={fileUrl}
-              style={{
-                width: "40px",
-                height: "100%",
-                objectFit: "scale-down",
-                borderRadius: "5px",
-              }}
-              alt={item.user.email}
-            />
-          </div>
-        );
-      },
+      field: (item) => <Avatar src={item.user.image} alt={item.user.name} />,
       size: 1,
     },
     {

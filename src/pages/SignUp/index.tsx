@@ -58,7 +58,7 @@ export default function SignUp() {
   }
 
   return (
-    <div className="bg-dark min-vh-100 d-flex align-items-center">
+    <div className="min-vh-100 d-flex align-items-center">
       <Container className=" d-flex justify-content-center">
         {success ? (
           <Card className="p-5 text-center col-12 col-md-4">

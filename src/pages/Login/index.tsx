@@ -46,7 +46,7 @@ export default function Login() {
   }
 
   return (
-    <div className="bg-dark min-vh-100 d-flex align-items-center">
+    <div className="min-vh-100 d-flex align-items-center">
       <Container className=" d-flex justify-content-center">
         <Card className="col-12 col-md-3">
           <Card.Header className="bg-white">Login</Card.Header>
