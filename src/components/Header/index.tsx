@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { signOut } from "../../services";
 import { CurrentUser } from "../../utils/userUtils";
 import { AuthTokens } from "../../utils/authTokens";
+import logo from "../../assets/imgs/logo.png";
 
 export function Header() {
   const user = CurrentUser.get();
@@ -22,7 +23,12 @@ export function Header() {
 
   return (
     <div className=" bg-black">
-      <Container>
+      <Container className="d-flex flex-row justify-content-between">
+        <Nav className="d-flez justify-content-center align-content-center">
+          <a href="/home">
+            <Image src={logo} style={{ width: "100px", height: "100px" }} />
+          </a>
+        </Nav>
         <Nav className=" d-flex flex-row justify-content-end align-items-center p-3">
           <Nav.Link href="/relatorio" className=" text-white">
             Relatorio
