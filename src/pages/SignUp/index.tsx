@@ -13,12 +13,11 @@ export default function SignUp() {
   const [formIsInvalid, setFormIsInvalid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessages, setErrorMessages] = useState<Array<string>>([]);
-  const [key, setKey] = useState(0);
   const [success, setSuccess] = useState(false);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setKey(Date.now());
+    setErrorMessages([]);
     if (e.currentTarget.checkValidity()) {
       const target = e.target as typeof e.target & {
         name: { value: string };
@@ -94,7 +93,7 @@ export default function SignUp() {
                   Preencha os campos obrigatorios!
                 </FormAlert>
                 {errorMessages?.length > 0 && (
-                  <ApiErrors key={key} items={errorMessages} />
+                  <ApiErrors items={errorMessages} />
                 )}
                 <FormField title="Nome" name="name" type="text" required />
                 <FormField

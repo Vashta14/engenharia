@@ -7,11 +7,13 @@ import { toast } from "react-toastify";
 import { CustomDeleteModal } from "../../../../components/CustomDeleteModal";
 import { CurrentUser } from "../../../../utils/userUtils";
 import localforage from "localforage";
+import { AuthTokens } from "../../../../utils/authTokens";
 
 export function EditUserModal(props: EditUserModalProps) {
   const { user, success, setSuccess, show, setShow } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [formValidated, setFormValidated] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   function handleCloseModal() {
     setShow(false);
@@ -69,6 +71,12 @@ export function EditUserModal(props: EditUserModalProps) {
     success && handleCloseModal();
   }, [success]);
 
+  useEffect(() => {
+    if (showDeleteModal) {
+      handleCloseModal();
+    }
+  }, [showDeleteModal]);
+
   return (
     <Modal
       show={show}
@@ -117,12 +125,17 @@ export function EditUserModal(props: EditUserModalProps) {
             itemType="Usuario"
             deleteFunction={async () => {
               if (user.id === CurrentUser.get().id) {
-                deleteUser();
+                await deleteUser();
+                CurrentUser.clear();
+                AuthTokens.cleanTokens();
+                window.location.replace("/login");
               } else {
-                deleteUser(Number(user.id));
+                await deleteUser(Number(user.id));
               }
             }}
             setSuccess={setSuccess}
+            show={showDeleteModal}
+            setShow={setShowDeleteModal}
           />
           <div className="d-flex flex-row gap-2">
             <Button variant="outline-secondary" onClick={handleCloseModal}>

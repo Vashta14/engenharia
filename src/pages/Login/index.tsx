@@ -28,6 +28,7 @@ export default function Login() {
       };
 
       setIsLoading(true);
+      setErrorMessages([]);
       try {
         const { data, headers } = await signIn(newUser);
         CurrentUser.set(data);
