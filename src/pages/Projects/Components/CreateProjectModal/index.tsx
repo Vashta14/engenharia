@@ -23,12 +23,14 @@ export function CreateProjectModal(props: CreateProjectModalProps) {
         name: { value: string };
         description: { value: string };
         goal: { value: string };
+        reward: { value: string };
       };
 
       const newProject: CreateProjectProps = {
         name: target.name.value,
         description: target.description.value,
         goal: Number(target.goal.value),
+        reward: target.reward.value,
       };
 
       setIsLoading(true);
@@ -83,6 +85,13 @@ export function CreateProjectModal(props: CreateProjectModalProps) {
               name="goal"
               type="number"
               group={<InputGroup.Text>R$</InputGroup.Text>}
+              required
+            />
+            <FormField
+              title="Recompensas"
+              name="reward"
+              type="text"
+              as="textarea"
               required
             />
           </Modal.Body>

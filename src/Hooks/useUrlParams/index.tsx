@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router";
 
 function useUrlParams(): [
   URLSearchParams,
@@ -14,7 +14,9 @@ function useUrlParams(): [
     window.history.pushState(
       {},
       "",
-      `${window.location.pathname}${newParams.size > 0 ? "?" : ""}${newParams}`
+      `${window.location.pathname}${
+        [...newParams.keys()].length > 0 ? "?" : ""
+      }${newParams}`
     );
   };
 

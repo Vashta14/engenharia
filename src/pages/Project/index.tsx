@@ -163,7 +163,16 @@ export default function Project() {
           />
         }
       />
-      <Container>
+      <Container className=" text-white">
+        <div className=" border-bottom border-top d-flex flex-column py-4">
+          <h4> Descrição</h4>
+          <span className=" col-12 col-md-8">{project?.description}</span>
+        </div>
+        <div className=" border-bottom d-flex flex-column py-4">
+          <h4> Recompensas</h4>
+          <span className=" col-12 col-md-8">{project?.reward} </span>
+        </div>
+        <h4 className="pt-4"> Patrocínios</h4>
         <CustomTable
           items={sponsorships}
           columns={columns}

@@ -1,4 +1,4 @@
-import axios, { HttpStatusCode, AxiosResponseHeaders } from "axios";
+import axios, { HttpStatusCode } from "axios";
 import { toast } from "react-toastify";
 import { AuthTokens } from "../utils/authTokens";
 
