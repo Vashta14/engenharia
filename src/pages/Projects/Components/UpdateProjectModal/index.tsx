@@ -14,7 +14,6 @@ export function UpdtateProjectModal(props: UpdateProjectModalProps) {
   const { project, setProject, success, setSuccess, show, setShow } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [formValidated, setFormValidated] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   function handleCloseModal() {
     setShow(false);
@@ -147,8 +146,6 @@ export function UpdtateProjectModal(props: UpdateProjectModalProps) {
                     await deleteProject(Number(project?.id));
                   }}
                   setSuccess={setSuccess}
-                  show={showDeleteModal}
-                  setShow={setShowDeleteModal}
                 />
                 <div className="d-flex flex-row gap-2">
                   <Button

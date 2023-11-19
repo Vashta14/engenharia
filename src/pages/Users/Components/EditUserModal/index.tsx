@@ -13,7 +13,6 @@ export function EditUserModal(props: EditUserModalProps) {
   const { user, success, setSuccess, show, setShow } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [formValidated, setFormValidated] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   function handleCloseModal() {
     setShow(false);
@@ -70,12 +69,6 @@ export function EditUserModal(props: EditUserModalProps) {
   useEffect(() => {
     success && handleCloseModal();
   }, [success]);
-
-  useEffect(() => {
-    if (showDeleteModal) {
-      handleCloseModal();
-    }
-  }, [showDeleteModal]);
 
   return (
     <Modal
@@ -134,8 +127,6 @@ export function EditUserModal(props: EditUserModalProps) {
               }
             }}
             setSuccess={setSuccess}
-            show={showDeleteModal}
-            setShow={setShowDeleteModal}
           />
           <div className="d-flex flex-row gap-2">
             <Button variant="outline-secondary" onClick={handleCloseModal}>
