@@ -63,7 +63,6 @@ export default function Users() {
           <Button
             variant="outline-success"
             className=" d-flex justify-content-between align-content-center"
-            size="sm"
             onClick={() => {
               setShowModal(true);
               setSelectedUser(item);

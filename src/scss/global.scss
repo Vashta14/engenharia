@@ -24,3 +24,10 @@ ul.pagination-dark li a{
   border: 0;
   color: var(--bs-body-bg)!important;
 }
+
+.limited-characters {
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

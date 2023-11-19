@@ -36,8 +36,8 @@ export function Header() {
           <Nav.Link href="/items" className=" text-white">
             Lista de items
           </Nav.Link>
-          <Nav.Link href="/lista" className=" text-white">
-            Lista de...
+          <Nav.Link href="/projects" className=" text-white">
+            Projetos
           </Nav.Link>
           {user && user.role === "admin" && (
             <Nav.Link href="/users" className=" text-white">

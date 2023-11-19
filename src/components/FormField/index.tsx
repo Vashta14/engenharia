@@ -1,4 +1,4 @@
-import { Form, FormControlProps } from "react-bootstrap";
+import { Form, FormControlProps, InputGroup } from "react-bootstrap";
 import { InputHTMLAttributes } from "react";
 
 type FormCellProps = FormControlProps &
@@ -10,6 +10,7 @@ type FormCellProps = FormControlProps &
     onBlur?: React.FocusEventHandler;
     feedback?: string;
     required?: boolean;
+    group?: React.ReactNode;
   };
 
 export function FormField(props: FormCellProps) {
@@ -22,15 +23,12 @@ export function FormField(props: FormCellProps) {
     onChange,
     onBlur,
     feedback = "Campo obrigatorio!",
+    group,
     ...otherProps
   } = props;
 
-  return (
-    <Form.Group className="mb-3" controlId={`formBase${name}`}>
-      <Form.Label>
-        {title}
-        {required && <span className="text-danger">*</span>}
-      </Form.Label>
+  const FormControl: React.ReactNode = (
+    <>
       {value ? (
         <Form.Control
           type={type}
@@ -48,6 +46,22 @@ export function FormField(props: FormCellProps) {
           required={required}
           {...otherProps}
         />
+      )}
+    </>
+  );
+
+  return (
+    <Form.Group className="mb-3" controlId={`formBase${name}`}>
+      <Form.Label>
+        {title}
+        {required && <span className="text-danger">*</span>}
+      </Form.Label>
+      {group ? (
+        <InputGroup>
+          {group} {FormControl}
+        </InputGroup>
+      ) : (
+        <>{FormControl} </>
       )}
 
       <Form.Control.Feedback type="invalid">{feedback}</Form.Control.Feedback>
