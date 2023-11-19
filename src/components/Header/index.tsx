@@ -48,9 +48,6 @@ export function Header(props: {
           </a>
         </Nav>
         <Nav className=" d-flex flex-row justify-content-end align-items-center p-3 pe-0">
-          <Nav.Link href="/relatorio" className=" text-white">
-            Relatorio
-          </Nav.Link>
           <Nav.Link href="/projects" className=" text-white">
             Projetos
           </Nav.Link>
