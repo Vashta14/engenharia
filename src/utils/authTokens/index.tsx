@@ -23,14 +23,19 @@ export class AuthTokens {
     localStorage.setItem("expirity", header.expiry);
     localStorage.setItem("uid", header.uid);
   }
-
   static tokensExist(): boolean {
-    return (
+    return (!!this.getAccessToken() &&
       this.getAccessToken() !== "null" &&
+      this.getAccessToken() !== "undefined" &&
+      !!this.getClient() &&
       this.getClient() !== "null" &&
+      this.getClient() !== "undefined" &&
+      !!this.getExpirity() &&
       this.getExpirity() !== "null" &&
-      this.getUid() !== "null"
-    );
+      this.getExpirity() !== "undefined" &&
+      !!this.getUid() &&
+      this.getUid() !== "null" &&
+      this.getUid() !== "undefined") as boolean;
   }
 
   static cleanTokens(): void {

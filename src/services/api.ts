@@ -15,12 +15,7 @@ api.defaults.headers["expirity"] = AuthTokens.getExpirity();
 api.defaults.headers["uid"] = AuthTokens.getUid();
 
 api.interceptors.response.use(
-  (response) => {
-    if (response.status === HttpStatusCode.Ok) {
-      AuthTokens.setTokensByHeader(response.headers as AxiosResponseHeaders);
-    }
-    return response;
-  },
+  (response) => response,
   (error) => {
     if (error.response.status === HttpStatusCode.Unauthorized) {
       toast.error("Erro de autenticação. Por favor, faça login novamente.");
