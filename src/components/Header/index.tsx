@@ -23,10 +23,6 @@ export function Header(props: {
       setUserImage(url);
     }
     getImage();
-    if (!CurrentUser.get() || !AuthTokens.tokensExist()) {
-      CurrentUser.clear();
-      AuthTokens.cleanTokens();
-    }
   }, []);
 
   useEffect(() => {

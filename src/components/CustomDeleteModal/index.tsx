@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { CustomDeleteModalProps } from "./customDeleteModal";
 import { toast } from "react-toastify";
@@ -29,12 +29,27 @@ export function CustomDeleteModal(props: CustomDeleteModalProps) {
     }
   }
 
+  useEffect(() => {
+    var novaDiv = document.createElement("div");
+    novaDiv.className =
+      "bg-black min-vh-100 min-vw-100 start-0 top-0 position-absolute bg-opacity-50";
+    novaDiv.style.zIndex = "1055";
+    novaDiv.id = "delete-bg";
+
+    if (show) {
+      document.body.appendChild(novaDiv);
+    } else {
+      var divToRemove = document.getElementById("delete-bg");
+      if (divToRemove) document.body.removeChild(divToRemove);
+    }
+  }, [show]);
+
   return (
     <>
       <Button variant="outline-danger" onClick={() => setShow(true)}>
         <FaRegTrashAlt />
       </Button>
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} style={{ zIndex: 1056 }}>
         <Modal.Header closeButton>
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
