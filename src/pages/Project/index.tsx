@@ -155,10 +155,13 @@ export default function Project() {
                     className="col-12 col-md-3"
                     now={actualBar}
                   />
-                  {(totalAmount || 0).toLocaleString("pt-br", {
+                  {`${(totalAmount || 0).toLocaleString("pt-br", {
                     style: "currency",
                     currency: "BRL",
-                  })}
+                  })} de ${(project?.goal || 0).toLocaleString("pt-br", {
+                    style: "currency",
+                    currency: "BRL",
+                  })}`}
                 </div>
               </div>
             )}
