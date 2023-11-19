@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import { updateUser } from "../../../../services/users.service";
+import { deleteUser, updateUser } from "../../../../services/users.service";
 import { FormSubmitButton } from "../../../../components/FormSubmitButton";
 import { FormField } from "../../../../components/FormField";
 import { toast } from "react-toastify";
+import { CustomDeleteModal } from "../../../../components/CustomDeleteModal";
 
 export function EditUserModal(props: EditUserModalProps) {
-  const { user, setUser, success, setSuccess, show, setShow } = props;
+  const { user, success, setSuccess, show, setShow } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [formValidated, setFormValidated] = useState(false);
 
@@ -41,7 +42,6 @@ export function EditUserModal(props: EditUserModalProps) {
         await updateUser(newUser);
         toast.success("Usuario atualizado com sucesso!");
         setSuccess(true);
-        handleCloseModal();
       } catch (error) {
         console.error(error);
       } finally {
@@ -53,10 +53,12 @@ export function EditUserModal(props: EditUserModalProps) {
   }
 
   useEffect(() => {
-    if (show) {
-      setSuccess(false);
-    }
+    show && setSuccess(false);
   }, [show]);
+
+  useEffect(() => {
+    success && handleCloseModal();
+  }, [success]);
 
   return (
     <Modal
@@ -99,11 +101,22 @@ export function EditUserModal(props: EditUserModalProps) {
             defaultValue={user.email}
           />
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="outline-secondary" onClick={handleCloseModal}>
-            Fechar
-          </Button>
-          <FormSubmitButton isLoading={isLoading}>Salvar</FormSubmitButton>
+        <Modal.Footer className=" d-flex justify-content-between">
+          <CustomDeleteModal
+            title="Remover usuario"
+            item={user.name}
+            itemType="Usuario"
+            deleteFunction={async () => {
+              deleteUser(Number(user.id));
+            }}
+            setSuccess={setSuccess}
+          />
+          <div className="d-flex flex-row gap-2">
+            <Button variant="outline-secondary" onClick={handleCloseModal}>
+              Fechar
+            </Button>
+            <FormSubmitButton isLoading={isLoading}>Salvar</FormSubmitButton>
+          </div>
         </Modal.Footer>
       </Form>
     </Modal>

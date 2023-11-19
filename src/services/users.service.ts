@@ -8,3 +8,7 @@ export async function listUsers(props: { page: number; itemsPerPage: number }) {
 export async function updateUser(props: User) {
   return api.put(`/users/${props.id}`, props);
 }
+
+export async function deleteUser(id: number | undefined = undefined) {
+  return api.delete(`/users/${id}`);
+}

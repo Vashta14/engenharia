@@ -114,7 +114,6 @@ export default function Users() {
         {selectedUser && (
           <EditUserModal
             user={selectedUser}
-            setUser={setSelectedUser}
             show={showModal}
             setShow={setShowModal}
             success={success}

@@ -18,6 +18,7 @@ export function Routers() {
           <Route path="/sign-up" index element={<SignUp />} />
           <Route path="/users" index element={<Users />} />
           <Route path="/items" index element={<ItemsTable />} />
+          <Route path="*" element={<Home />} />
         </Routes>
       </Suspense>
     </RecoilRoot>

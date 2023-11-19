@@ -1,21 +1,21 @@
-import { Button, Spinner } from "react-bootstrap";
+import { Button, ButtonProps, Spinner } from "react-bootstrap";
 
-interface FormSubmitButtonProps {
+type FormSubmitButtonProps = ButtonProps & {
   isLoading?: boolean;
   isEdit?: boolean;
-  className?: string;
-}
+};
 
 export function FormSubmitButton(
   props: React.PropsWithChildren<FormSubmitButtonProps>
 ) {
-  const { isLoading, isEdit, children, className = "" } = props;
+  const { isLoading, isEdit, children, className = "", ...otherProps } = props;
   return (
     <Button
       variant={isEdit ? "outline-dark" : "dark"}
       className={`${className} d-flex justify-content-center align-items-center`}
       type="submit"
       disabled={isLoading}
+      {...otherProps}
     >
       {isLoading ? <Spinner size="sm" /> : children}
     </Button>
