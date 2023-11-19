@@ -5,9 +5,10 @@ import { FormField } from "../../components/FormField";
 import { FormSubmitButton } from "../../components/FormSubmitButton";
 import React from "react";
 import { signIn } from "../../services";
-import { AxiosError } from "axios";
+import { AxiosError, AxiosResponseHeaders } from "axios";
 import { ApiErrors } from "../../components/ApiErrors";
 import { CurrentUser } from "../../utils/userUtils";
+import { AuthTokens } from "../../utils/authTokens";
 
 export default function Login() {
   const [formIsInvalid, setFormIsInvalid] = useState<boolean>(false);
@@ -28,8 +29,9 @@ export default function Login() {
 
       setIsLoading(true);
       try {
-        const { data } = await signIn(newUser);
+        const { data, headers } = await signIn(newUser);
         CurrentUser.set(data);
+        AuthTokens.setTokensByHeader(headers as AxiosResponseHeaders);
         window.location.replace("/home");
       } catch (error) {
         if (error instanceof AxiosError)

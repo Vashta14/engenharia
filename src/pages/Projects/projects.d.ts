@@ -2,7 +2,7 @@ interface Project {
   name: string;
   description: string;
   goal: number;
-  reward?: string;
+  reward?: number;
   active: boolean;
   id: number;
 }

@@ -19,3 +19,7 @@ export async function createProject(props: CreateProjectProps) {
 export async function deleteProject(id: number | undefined = undefined) {
   return api.delete(`/projects/${id}`);
 }
+
+export async function getProject(id: number | undefined = undefined) {
+  return api.get(`/projects/${id}`);
+}

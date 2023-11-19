@@ -1,15 +1,15 @@
 import { Container } from "react-bootstrap";
 
 interface SubheaderProps {
-  title: string;
+  title: string | React.ReactNode;
   filters?: React.JSX.Element;
 }
 
 export function Subheader(props: SubheaderProps) {
   const { title, filters } = props;
   return (
-    <Container className=" d-flex justify-content-between flex-row text-light py-4">
-      <h2 className=" fw-light">{title}</h2>
+    <Container className=" d-flex justify-content-between flex-row text-light py-4 align-items-center">
+      {title instanceof String ? <h2 className=" fw-light">{title}</h2> : title}
       <div>{filters}</div>
     </Container>
   );

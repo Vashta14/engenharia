@@ -25,7 +25,7 @@ export default function Projects() {
       size: 3,
     },
     {
-      name: "Descricao",
+      name: "Descrição",
       field: (item) => item.description,
       title: (item) => item.description,
       tdClassName: "limited-characters",

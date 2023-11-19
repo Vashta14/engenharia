@@ -28,8 +28,8 @@ api.interceptors.response.use(
     } else if (error.response.status === HttpStatusCode.Forbidden) {
       toast.error("Você não tem permissão para acessar este recurso.");
     }
-    if (!!error.response.data.message) {
-      toast.error(error.response.data.message);
+    if (!!error.response.data.messages) {
+      toast.error(error.response.data.messages);
     }
     return Promise.reject(error);
   }

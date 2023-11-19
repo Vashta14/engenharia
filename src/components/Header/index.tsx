@@ -26,7 +26,7 @@ export function Header() {
       <Container className="d-flex flex-row justify-content-between">
         <Nav className="d-flez justify-content-center align-content-center">
           <a href="/home">
-            <Image src={logo} style={{ width: "100px", height: "100px" }} />
+            <Image src={logo} style={{ width: "80px", height: "80px" }} />
           </a>
         </Nav>
         <Nav className=" d-flex flex-row justify-content-end align-items-center p-3">

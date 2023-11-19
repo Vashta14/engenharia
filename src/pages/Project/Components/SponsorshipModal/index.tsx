@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { Button, Form, InputGroup, Modal } from "react-bootstrap";
-import { FormSubmitButton } from "../../../../components/FormSubmitButton";
-import { FormField } from "../../../../components/FormField";
+import { CurrentUser } from "../../../../utils/userUtils";
+import { createSponsorship } from "../../../../services/sponsorships.service";
 import { toast } from "react-toastify";
-import { createProject } from "../../../../services/projects.service";
+import { Button, Form, InputGroup, Modal } from "react-bootstrap";
+import { FormField } from "../../../../components/FormField";
+import { FormSubmitButton } from "../../../../components/FormSubmitButton";
 
-export function CreateProjectModal(props: CreateProjectModalProps) {
-  const { success, setSuccess, show, setShow } = props;
+export function SponsorshipModal(props: SponsorshipModalProps) {
+  const { projectId, success, setSuccess, show, setShow } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [formValidated, setFormValidated] = useState(false);
 
@@ -18,23 +19,21 @@ export function CreateProjectModal(props: CreateProjectModalProps) {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (e.currentTarget.checkValidity()) {
+    if (e.currentTarget.checkValidity() && projectId) {
       const target = e.target as typeof e.target & {
-        name: { value: string };
-        description: { value: string };
-        goal: { value: string };
+        sponsorship: { value: string };
       };
 
-      const newProject: CreateProjectProps = {
-        name: target.name.value,
-        description: target.description.value,
-        goal: Number(target.goal.value),
+      const newSponsorship: CreateSponsorshipProps = {
+        sponsorship: Number(target.sponsorship.value),
+        userId: CurrentUser.get().id,
+        projectId,
       };
 
       setIsLoading(true);
       try {
-        await createProject(newProject);
-        toast.success("Projeto criadocom sucesso!");
+        await createSponsorship(newSponsorship);
+        toast.success("Projeto patrocinado com sucesso!");
         setSuccess(true);
       } catch (error) {
         console.error(error);
@@ -56,8 +55,12 @@ export function CreateProjectModal(props: CreateProjectModalProps) {
 
   return (
     <>
-      <Button variant="outline-success" onClick={() => setShow(true)}>
-        Criar projeto
+      <Button
+        variant="outline-success"
+        className="w-100"
+        onClick={() => setShow(true)}
+      >
+        Patrocinar
       </Button>
       <Modal
         show={show}
@@ -66,21 +69,13 @@ export function CreateProjectModal(props: CreateProjectModalProps) {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Criar projeto</Modal.Title>
+          <Modal.Title>Patrocinar projeto</Modal.Title>
         </Modal.Header>
         <Form noValidate validated={formValidated} onSubmit={handleSubmit}>
           <Modal.Body>
-            <FormField title="Nome" name="name" type="text" required />
             <FormField
-              title="Descrição"
-              name="description"
-              type="text"
-              as="textarea"
-              required
-            />
-            <FormField
-              title="Meta"
-              name="goal"
+              title="Valor"
+              name="sponsorship"
               type="number"
               group={<InputGroup.Text>R$</InputGroup.Text>}
               required
@@ -90,7 +85,9 @@ export function CreateProjectModal(props: CreateProjectModalProps) {
             <Button variant="outline-secondary" onClick={handleCloseModal}>
               Fechar
             </Button>
-            <FormSubmitButton isLoading={isLoading}>Criar</FormSubmitButton>
+            <FormSubmitButton isLoading={isLoading}>
+              Patrocinar
+            </FormSubmitButton>
           </Modal.Footer>
         </Form>
       </Modal>

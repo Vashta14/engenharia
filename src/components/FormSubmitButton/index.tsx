@@ -8,10 +8,17 @@ type FormSubmitButtonProps = ButtonProps & {
 export function FormSubmitButton(
   props: React.PropsWithChildren<FormSubmitButtonProps>
 ) {
-  const { isLoading, isEdit, children, className = "", ...otherProps } = props;
+  const {
+    isLoading,
+    isEdit,
+    children,
+    className = "",
+    variant,
+    ...otherProps
+  } = props;
   return (
     <Button
-      variant={isEdit ? "outline-dark" : "dark"}
+      variant={variant ? variant : isEdit ? "outline-dark" : "dark"}
       className={`${className} d-flex justify-content-center align-items-center`}
       type="submit"
       disabled={isLoading}
