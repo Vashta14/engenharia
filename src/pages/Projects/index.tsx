@@ -3,14 +3,16 @@ import { Subheader } from "../../components/Subheader";
 import { Header } from "../../components/Header";
 import { Column, CustomTable } from "../../components/CustomTable";
 import { useState, useEffect } from "react";
-import { FaAngleRight } from "react-icons/fa";
+import { FaAngleRight, FaPen } from "react-icons/fa";
 import useUrlParams from "../../Hooks/useUrlParams";
-import { CreateProjectModal } from "./Components/CreateProjectModal";
+import { UpdtateProjectModal } from "./Components/UpdateProjectModal";
 import { listProjects } from "../../services/projects.service";
+import { CurrentUser } from "../../utils/userUtils";
 
 export default function Projects() {
   const [params, setParams] = useUrlParams();
   const [projects, setProjects] = useState<Array<Project>>([]);
+  const [selectedProject, setSelectedProject] = useState<Project | undefined>();
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState<number>(Number(params.get("page")) || 1);
   const [itemsPerPage, setItemsPerPage] = useState<number>(20);
@@ -22,12 +24,19 @@ export default function Projects() {
     {
       name: "Name",
       field: (item) => item.name,
-      size: 3,
+      size: 2,
     },
     {
       name: "Descrição",
       field: (item) => item.description,
       title: (item) => item.description,
+      tdClassName: "limited-characters",
+      size: 6,
+    },
+    {
+      name: "Recompensas",
+      field: (item) => item.reward,
+      title: (item) => item.reward,
       tdClassName: "limited-characters",
       size: 6,
     },
@@ -42,17 +51,7 @@ export default function Projects() {
         }),
       size: 1,
     },
-    {
-      tdClassName: "text-end",
-      thClassName: "text-end",
-      name: "Arrecadado",
-      field: (item) =>
-        (item.reward || 0).toLocaleString("pt-br", {
-          style: "currency",
-          currency: "BRL",
-        }),
-      size: 1,
-    },
+
     {
       name: "Visualizar",
       tdClassName: "text-end",
@@ -60,6 +59,18 @@ export default function Projects() {
       size: 1,
       field: (item) => (
         <ButtonGroup>
+          {CurrentUser.get().role === "admin" && (
+            <Button
+              variant="outline-success"
+              className=" d-flex justify-content-between align-content-center"
+              onClick={() => {
+                setShow(true);
+                setSelectedProject(item);
+              }}
+            >
+              <FaPen />
+            </Button>
+          )}
           <Button
             as="a"
             variant="outline-primary"
@@ -109,7 +120,9 @@ export default function Projects() {
       <Subheader
         title="Projetos"
         filters={
-          <CreateProjectModal
+          <UpdtateProjectModal
+            project={selectedProject}
+            setProject={setSelectedProject}
             show={show}
             setShow={setShow}
             success={success}

@@ -11,10 +11,6 @@ export async function listSponsorships(props: {
   );
 }
 
-export async function updateSponsorships(props: Sponsorship) {
-  return api.put(`/sponsorships/${props.id}`, props);
-}
-
 export async function createSponsorship(props: CreateSponsorshipProps) {
   const { userId, projectId, sponsorship } = props;
   return api.post(`/sponsorships`, {
@@ -22,12 +18,4 @@ export async function createSponsorship(props: CreateSponsorshipProps) {
     project_id: projectId,
     amount: sponsorship,
   });
-}
-
-export async function deleteSponsorships(id: number | undefined = undefined) {
-  return api.delete(`/sponsorships/${id}`);
-}
-
-export async function getSponsorship(id: number | undefined = undefined) {
-  return api.get(`/sponsorships/${id}`);
 }

@@ -10,5 +10,6 @@ export async function updateUser(props: User) {
 }
 
 export async function deleteUser(id: number | undefined = undefined) {
-  return api.delete(`/users/${id}`);
+  const path = id ? `/users/${id}` : "//auth";
+  return api.delete(path);
 }

@@ -21,5 +21,5 @@ export async function signUp(props: createUserProps) {
 }
 
 export async function signOut() {
-  return api.delete("/auth");
+  return api.delete("/auth/sign_out");
 }

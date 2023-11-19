@@ -32,7 +32,7 @@ export function EditUserModal(props: EditUserModalProps) {
         name: target.name.value,
         nickname: target.nickname.value,
         email: target.email.value,
-        image: !user.image
+        image: !!target.image.files[0]
           ? URL.createObjectURL(target.image.files[0])
           : user.image,
         id: user.id,
@@ -111,7 +111,11 @@ export function EditUserModal(props: EditUserModalProps) {
             item={user.name}
             itemType="Usuario"
             deleteFunction={async () => {
-              deleteUser(Number(user.id));
+              if (user.id === CurrentUser.get().id) {
+                deleteUser();
+              } else {
+                deleteUser(Number(user.id));
+              }
             }}
             setSuccess={setSuccess}
           />

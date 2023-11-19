@@ -57,8 +57,8 @@ export function Header() {
               >
                 <Image
                   src={user?.image}
-                  sizes="2em"
                   className="rounded-circle"
+                  style={{ height: "30px" }}
                 />
                 {user?.name}
               </Dropdown.Toggle>
