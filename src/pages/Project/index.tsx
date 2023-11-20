@@ -119,7 +119,7 @@ export default function Project() {
                         ? "warning"
                         : "danger"
                     }
-                    className="col-12 col-md-3"
+                    className="col-12 col-md-7"
                     now={actualBar}
                   />
                   {`${(totalAmount || 0).toLocaleString("pt-br", {
