@@ -9,7 +9,7 @@ export function Subheader(props: SubheaderProps) {
   const { title, filters } = props;
   return (
     <Container>
-      <Row className=" d-flex justify-content-between flex-row text-light py-4 align-items-center gap-2">
+      <Row className=" d-flex justify-content-between flex-row text-light py-4 align-items-center">
         <Col className=" col-12 col-md-6">
           {typeof title === "string" ? (
             <h2 className=" fw-light">{title}</h2>
