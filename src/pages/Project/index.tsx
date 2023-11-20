@@ -110,7 +110,7 @@ export default function Project() {
             ) : (
               <div className=" d-flex flex-column gap-2 w-100">
                 <h2 className=" fw-light">{project?.name}</h2>
-                <div className="d-flex flex-row gap-2 align-items-center">
+                <div className="d-flex flex-md-row flex-column gap-2 align-items-start align-items-md-center">
                   <ProgressBar
                     variant={
                       actualBar >= 100

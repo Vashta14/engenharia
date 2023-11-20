@@ -55,11 +55,7 @@ export function SponsorshipModal(props: SponsorshipModalProps) {
 
   return (
     <>
-      <Button
-        variant="outline-success"
-        className="w-100"
-        onClick={() => setShow(true)}
-      >
+      <Button variant="outline-success" onClick={() => setShow(true)}>
         Patrocinar
       </Button>
       <Modal
