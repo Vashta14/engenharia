@@ -30,6 +30,7 @@ describe("FormField", () => {
         name="test"
         type="text"
         value="Test Value"
+        onChange={jest.fn()}
       />
     );
 
@@ -61,6 +62,7 @@ describe("FormField", () => {
         type="text"
         onBlur={onBlurMock}
         value="test"
+        onChange={jest.fn()}
       />
     );
 

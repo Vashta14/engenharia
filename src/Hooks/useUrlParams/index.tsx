@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router";
 
 function useUrlParams(): [
   URLSearchParams,
   (newParams: Record<string, string>) => void
 ] {
-  const location = useLocation();
-  const [params, setParams] = useState(new URLSearchParams(location.search));
+  const [params, setParams] = useState(
+    new URLSearchParams(window.location.search)
+  );
 
   const setUrlParams = (items: Record<string, string>) => {
     const newParams = new URLSearchParams(items);
@@ -21,8 +21,8 @@ function useUrlParams(): [
   };
 
   useEffect(() => {
-    setParams(new URLSearchParams(location.search));
-  }, [location]);
+    setParams(new URLSearchParams(window.location.search));
+  }, []);
 
   return [params, setUrlParams];
 }

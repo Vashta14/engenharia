@@ -19,8 +19,10 @@ export function Header(props: {
   useEffect(() => {
     async function getImage() {
       const file = await localforage.getItem(user?.email);
-      const url = URL.createObjectURL(file as File);
-      setUserImage(url);
+      if (file instanceof File) {
+        const url = URL.createObjectURL(file);
+        setUserImage(url);
+      }
     }
     getImage();
   }, []);

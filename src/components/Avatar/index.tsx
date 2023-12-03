@@ -7,8 +7,10 @@ export function Avatar(props: AvatarProps) {
   useEffect(() => {
     async function getFile() {
       const file = await localforage.getItem(src);
-      const url = URL.createObjectURL(file as File);
-      setFileUrl(url);
+      if (file instanceof File) {
+        const url = URL.createObjectURL(file);
+        setFileUrl(url);
+      }
     }
     getFile();
   }, [src]);
