@@ -7,6 +7,8 @@ export function ApiErrors(props: ApiErrors) {
     new Array(items.length).fill(true)
   );
 
+  const MAX_ERRORS_TO_SHOW = 1;
+
   useEffect(() => {
     reset && setShow(new Array(items.length).fill(true));
   }, [reset]);
@@ -14,7 +16,7 @@ export function ApiErrors(props: ApiErrors) {
   return (
     <>
       {items.map((item: string, index: number) => {
-        if (index > import.meta.env.VITE_MAX_ERRORS_TO_SHOW) return;
+        if (index > MAX_ERRORS_TO_SHOW) return;
         return (
           <FormAlert
             key={` Alert: ${index} `}
