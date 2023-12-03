@@ -13,8 +13,14 @@ describe("ApiErrors", () => {
   it("renders ApiErrors component with custom variant", () => {
     const items = ["Error 1", "Error 2"];
     render(<ApiErrors items={items} variant="warning" />);
-    expect(screen.getByText("Error 1")).toBeInTheDocument();
-    expect(screen.getByText("Error 2")).toBeInTheDocument();
+    const fisrtAlert = screen.getByText("Error 1");
+    const secondAlert = screen.getByText("Error 2");
+
+    expect(fisrtAlert).toBeInTheDocument();
+    expect(secondAlert).toBeInTheDocument();
+
+    expect(fisrtAlert).toHaveClass("alert-warning");
+    expect(secondAlert).toHaveClass("alert-warning");
   });
 
   it("calls onChange when closing an alert", async () => {
@@ -33,6 +39,4 @@ describe("ApiErrors", () => {
     expect(screen.getByText("Error 2")).toBeInTheDocument();
     expect(screen.queryByText("Error 3")).toBeNull();
   });
-
-  // Add more test cases as needed
 });

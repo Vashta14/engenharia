@@ -5,5 +5,4 @@ module.exports = {
   },
   setupFilesAfterEnv: ["ts-node/register"],
   setupFiles: ["./src/setupTests.js"],
-  presets: ["@babel/preset-env", "@babel/preset-react"],
 };
